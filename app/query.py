@@ -15,8 +15,13 @@ class QueryRequest(BaseModel):
     top_k: int = 3
 
 # ——— Initialize CLIP model and processor once ———
-clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
-clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+def get_clip():
+    from transformers import CLIPProcessor, CLIPModel
+    model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
+    processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+    return model, processor
+
+clip_model, clip_processor = get_clip()
 
 def build_rag_prompt(question: str, context: list) -> str:
     context_str = "\n\n".join(
