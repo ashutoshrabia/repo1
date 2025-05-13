@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: rag-api-service
+    env: python
+    plan: starter
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PERPLEXITY_API_KEY
+        fromSecret: PERPLEXITY_API_KEY
+      - key: BASE_DIR
+        value: tmp/gs_docs
+      - key: INDEX_PATH
+        value: tmp/vector_store.index
+      - key: DOCUMENTS_PATH
+        value: tmp/documents.pkl
